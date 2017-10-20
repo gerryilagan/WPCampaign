@@ -115,6 +115,7 @@ class Wpcampaign {
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wpcampaign-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wpc-activecampaign-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
@@ -153,9 +154,10 @@ class Wpcampaign {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Wpcampaign_Admin( $this->get_plugin_name(), $this->get_version() );
+		$activecampaign_admin = new Wpcampaign_ActiveCampaign( $this->get_plugin_name(), $this->get_version() );
 
 
-		$this->loader->add_action( 'init', $plugin_admin, 'activecampaign_register_shortcodes' );
+		$this->loader->add_action( 'init', $activecampaign_admin, 'register_shortcodes' );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );

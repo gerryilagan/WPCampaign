@@ -1,26 +1,6 @@
 <?php
 
-/**
- * The admin-specific functionality of the plugin.
- *
- * @link       https://igerry.com
- * @since      1.0.0
- *
- * @package    Wpcampaign
- * @subpackage Wpcampaign/admin
- */
-
-/**
- * The admin-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
- * @package    Wpcampaign
- * @subpackage Wpcampaign/admin
- * @author     Gerry Ilagan <gerry@ilagan.org>
- */
-class Wpcampaign_Admin {
+class Wpcampaign_ActiveCampaign {
 
 	/**
 	 * The ID of this plugin.
@@ -51,6 +31,7 @@ class Wpcampaign_Admin {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
 	}
 
 	/**
@@ -72,7 +53,7 @@ class Wpcampaign_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wpcampaign-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wpcampaign-activecampaign.css', array(), $this->version, 'all' );
 
 	}
 
@@ -95,15 +76,15 @@ class Wpcampaign_Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpcampaign-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wpcampaign-activecampaign.js', array( 'jquery' ), $this->version, false );
 
 	}
 	
-	function activecampaign_register_shortcodes() {
-	  add_shortcode("activecampaign", array($this, "activecampaign_shortcodes"));
+	function register_shortcodes() {
+	  add_shortcode("activecampaign", array($this, "shortcodes"));
 	}
 
-	function activecampaign_shortcodes($args) {
+	function shortcodes($args) {
 		// check for Settings options saved first.
 		$settings = get_option("settings_activecampaign");
 		if ($settings) {
@@ -131,52 +112,10 @@ class Wpcampaign_Admin {
 	  return "";
 	}
 	
-	function plugin_menu() {
-	
-		$activecampaign_admin = new Wpcampaign_ActiveCampaign( $this->plugin_name, $this->version );
-
-		// add_options_page(__("WPCampaign Settings", "menu-wpcampaignsettings"), __("WPCampaign", "menu-wpcampaign"), "manage_options", "wpc-slug-main", array( $this, "plugin_options") );
-		// add_menu_page(__("WP Campaign", "wpc-page-title-main"), __("WP Campaign", "wpc-menu-title-main"), "manage_options", "wpc-slug-main", array( $this, "plugin_options"));
-		add_menu_page(__("WP Campaign", "wpc-page-title-main"), __("WP Campaign", "wpc-menu-title-main"), "manage_options", "wpc-slug-main");
-		// add_submenu_page( "wpc-slug-main", __("Options", "wpc-page-title-options"), __("Options", "wpc-menu-title-options"), "manage_options", "wpc-slug-main", array( $this, "plugin_options") );
-		
-		add_submenu_page( "wpc-slug-main", __("WP Campaign Contacts", "wpc-page-title-contacts"), __("Contacts", "wpc-menu-title-contacts"), "manage_options", "wpc-slug-contacts", array( $this, "plugin_options") );
-
-		add_submenu_page( "wpc-slug-main", __("WP Campaign Messages", "wpc-page-title-messages"), __("Messages", "wpc-menu-title-messages"), "manage_options", "wpc-slug-messages", array( $this, "plugin_options") );
-
-		add_submenu_page( "wpc-slug-main", 
-		__("Action Campaign", "wpc-page-title-actioncampaign"), 
-		__("Action Campaign", "wpc-menu-title-actioncampaign"), 
-		"manage_options", 
-		"wpc-slug-actioncampaign", 
-		array($activecampaign_admin, "page") );
-		
-		add_submenu_page( "wpc-slug-main", 
-		__("Twilio", "wpc-page-title-twilio"), 
-		__("Twilio", "wpc-menu-title-twilio"), 
-		"manage_options", 
-		"wpc-slug-twilio", 
-		array($this, "plugin_options_twilio") );
-		
-		remove_submenu_page("wpc-slug-main", "wpc-slug-main");
-	}
-	
-	/*
-	 * The settings page
-	 */
-	function plugin_options() {
-	}
-	
-	/*
-	 * The page for Twilio
-	 */
-	function plugin_options_twilio() {
-	}
-	
 	/*
 	 * The page for ActionCampaign
 	 */
-	function plugin_options_actioncampaign_OLD() {
+	function page() {
 
 		if (!current_user_can("manage_options"))  {
 			wp_die(__("You do not have sufficient permissions to access this page."));

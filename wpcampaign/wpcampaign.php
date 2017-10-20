@@ -16,7 +16,7 @@
  * Plugin Name:       WPCampaign
  * Plugin URI:        https://igerry.com/project/wpcampaign
  * Description:       Send email and sms messages to ActiveCampaign users.
- * Version:           0.0.1
+ * Version:           0.0.2
  * Author:            Gerry Ilagan
  * Author URI:        https://igerry.com
  * License:           GPL-3.0
